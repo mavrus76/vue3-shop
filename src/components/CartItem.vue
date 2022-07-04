@@ -28,7 +28,7 @@
       </button>
     </div>
 
-    <b class="product__price"> {{ item.product.price * item.amount }} ₽ </b>
+    <b class="product__price"> {{ totalPricePretty }} ₽ </b>
 
     <button
       class="product__del button-del"
@@ -46,8 +46,10 @@
 
 <script>
 import { mapActions } from 'vuex';
+import numberFormat from '@/helpers/numberFormat';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   data() {
     return {
       productDeleting: false,
@@ -55,6 +57,9 @@ export default {
   },
   props: ['item'],
   computed: {
+    totalPricePretty() {
+      return numberFormat(this.item.product.price * this.item.amount);
+    },
     amount: {
       get() {
         return this.item.amount;
@@ -77,5 +82,5 @@ export default {
       });
     },
   },
-};
+});
 </script>

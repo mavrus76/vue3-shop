@@ -10,10 +10,11 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 import ProductItem from './ProductItem.vue';
 
-export default {
+export default defineComponent({
   components: { ProductItem },
   props: ['products', 'product'],
-};
+});
 </script>

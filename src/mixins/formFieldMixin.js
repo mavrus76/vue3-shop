@@ -2,14 +2,14 @@ import BaseFormField from '@/components/BaseFormField.vue';
 
 export default {
   components: { BaseFormField },
-  props: ['title', 'error', 'placeholder', 'value'],
+  props: ['title', 'error', 'placeholder', 'modelValue'],
   computed: {
     dataValue: {
       get() {
-        return this.value;
+        return this.modelValue;
       },
-      set(value) {
-        this.$emit('input', value);
+      set(modelValue) {
+        this.$emit('update:modelValue', modelValue);
       },
     },
   },

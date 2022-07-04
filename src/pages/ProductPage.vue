@@ -30,7 +30,7 @@
         <h2 class="item__title">{{ product.title }}</h2>
         <div class="item__form">
           <form class="form" action="#" method="POST" @submit.prevent="addToCart">
-            <b class="item__price"> {{ product.price }} ₽ </b>
+            <b class="item__price"> {{ pricePretty }} ₽ </b>
 
             <fieldset class="form__block">
               <legend class="form__legend">Цвет:</legend>
@@ -200,8 +200,10 @@ import gotoPage from '@/helpers/gotoPage';
 import axios from 'axios';
 import { API_BASE_URL } from '@/config';
 import { mapActions } from 'vuex';
+import { defineComponent } from 'vue';
+import numberFormat from '@/helpers/numberFormat';
 
-export default {
+export default defineComponent({
   data() {
     return {
       productAmount: 1,
@@ -213,6 +215,9 @@ export default {
     };
   },
   computed: {
+    pricePretty() {
+      return numberFormat(this.product.price);
+    },
     product() {
       const product = this.productData;
       return {
@@ -252,13 +257,11 @@ export default {
         });
     },
   },
-  watch: {
-    '$route.params.id': {
-      handler() {
-        this.loadProduct();
-      },
-      immediate: true,
-    },
+  created() {
+    this.loadProduct();
   },
-};
+  beforeRouteUpdate() {
+    this.loadProduct();
+  },
+});
 </script>

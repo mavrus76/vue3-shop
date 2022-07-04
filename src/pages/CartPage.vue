@@ -25,14 +25,16 @@
         <div class="cart__block">
           <p class="cart__desc">Мы&nbsp;посчитаем стоимость доставки на&nbsp;следующем этапе</p>
           <p class="cart__price">
-            Итого: <span>{{ totalPrice }} ₽</span>
+            Итого: <span>{{ totalPricePretty }} ₽</span>
           </p>
 
-          <router-link :to="{ name: 'order' }">
+          <router-link v-slot='{navigate}' :to="{ name: 'order' }" custom>
             <button
               class="cart__button button button--primary"
-              type="submit"
+              type="button"
+              :disabled='!totalPrice'
               v-show="products.length > 0"
+              @click="navigate"
             >
               Оформить заказ
             </button>
@@ -46,9 +48,11 @@
 <script>
 import CartItem from '@/components/CartItem.vue';
 import gotoPage from '@/helpers/gotoPage';
+import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import numberFormat from '@/helpers/numberFormat';
 
-export default {
+export default defineComponent({
   components: { CartItem },
   computed: {
     ...mapGetters({
@@ -56,9 +60,12 @@ export default {
       totalPrice: 'cartTotalPrice',
       totalProducts: 'cartTotalProducts',
     }),
+    totalPricePretty() {
+      return numberFormat(this.totalPrice);
+    },
   },
   methods: {
     gotoPage,
   },
-};
+});
 </script>

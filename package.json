@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
+    "mitt": "^3.0.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
@@ -35,8 +36,6 @@
     "stylus": "^0.55.0",
     "stylus-loader": "^6.1.0",
     "url": "^0.11.0",
-    "util": "^0.12.4",
-    "vue-loader": "^17.0.0",
-    "vue-template-compiler": "^2.7.0"
+    "util": "^0.12.4"
   }
 }

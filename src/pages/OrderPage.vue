@@ -106,7 +106,7 @@
           <ul class="cart__orders">
             <li class="cart__order" v-for="item in products" :key="item.product.id">
               <h3>{{ item.product.title }}</h3>
-              <b>{{ item.product.price }} ₽</b>
+              <b>{{ pricePretty }} ₽</b>
               <span>Артикул: {{ item.product.id }}</span>
             </li>
           </ul>
@@ -117,7 +117,7 @@
               Итого:
               <b>{{ totalProducts }}</b>
               товара на сумму
-              <b>{{ totalPrice }} ₽</b>
+              <b>{{ totalPricePretty }} ₽</b>
             </p>
           </div>
           <button class="cart__button button button--primary" type="submit">Оформить заказ</button>
@@ -153,8 +153,10 @@ import { mapGetters } from 'vuex';
 import BaseFormText from '@/components/BaseFormText.vue';
 import BaseFormTextarea from '@/components/BaseFormTextarea.vue';
 import order from '@/api/order';
+import { defineComponent } from 'vue';
+import numberFormat from '@/helpers/numberFormat';
 
-export default {
+export default defineComponent({
   components: {
     BaseFormText,
     BaseFormTextarea,
@@ -173,10 +175,16 @@ export default {
       totalPrice: 'cartTotalPrice',
       totalProducts: 'cartTotalProducts',
     }),
+    pricePretty() {
+      return numberFormat(this.products.map((item) => item.product.price));
+    },
+    totalPricePretty() {
+      return numberFormat(this.totalPrice);
+    },
   },
   methods: {
     gotoPage,
     order,
   },
-};
+});
 </script>

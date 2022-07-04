@@ -132,8 +132,9 @@
 <script>
 import loadCategories from '@/api/loadCategories';
 import loadColors from '@/api/loadColors';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   data() {
     return {
       currentPriceFrom: 0,
@@ -187,5 +188,5 @@ export default {
     this.loadCategories();
     this.loadColors();
   },
-};
+});
 </script>

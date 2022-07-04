@@ -30,8 +30,9 @@ import ProductList from '@/components/ProductList.vue';
 import BasePagination from '@/components/BasePagination.vue';
 import ProductFilter from '@/components/ProductFilter.vue';
 import loadProducts from '@/api/loadProducts';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   components: { ProductList, BasePagination, ProductFilter },
   data() {
     return {
@@ -82,5 +83,5 @@ export default {
   created() {
     this.loadProducts();
   },
-};
+});
 </script>

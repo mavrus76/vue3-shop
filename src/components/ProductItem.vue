@@ -8,7 +8,7 @@
       <a href="#">{{ product.title }}</a>
     </h3>
 
-    <span class="catalog__price"> {{ product.price }} ₽ </span>
+    <span class="catalog__price"> {{ pricePretty }} ₽ </span>
 
     <ul class="colors colors--black">
       <li class="colors__item" v-for="color in product.colors" :key="color.id">
@@ -23,11 +23,18 @@
 
 <script>
 import gotoPage from '@/helpers/gotoPage';
+import numberFormat from '@/helpers/numberFormat';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   props: ['product'],
   methods: {
     gotoPage,
   },
-};
+  computed: {
+    pricePretty() {
+      return numberFormat(this.product.price);
+    },
+  },
+});
 </script>

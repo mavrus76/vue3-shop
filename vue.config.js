@@ -2,7 +2,7 @@ const { defineConfig } = require('@vue/cli-service');
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: '/vue3-shop/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/vue3-shop-production/' : '/',
   configureWebpack: {
     resolve: {
       fallback: {

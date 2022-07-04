@@ -11,8 +11,9 @@
 
 <script>
 import formFieldMixin from '@/mixins/formFieldMixin';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   mixins: [formFieldMixin],
-};
+});
 </script>

@@ -63,7 +63,7 @@
           <ul class="cart__orders">
             <li class="cart__order" v-for="item in orderInfo.basket.items" :key="item.product.id">
               <h3>{{ item.product.title }}</h3>
-              <b>{{ item.product.price }} ₽</b>
+              <b>{{ pricePretty }} ₽</b>
               <span>Артикул: {{ item.product.id }}</span>
             </li>
           </ul>
@@ -74,7 +74,7 @@
               Итого:
               <b>{{ orderInfo.basket.items.length }}</b>
               товара на сумму
-              <b>{{ orderInfo.totalPrice }} ₽</b>
+              <b>{{ totalPricePretty }} ₽</b>
             </p>
           </div>
         </div>
@@ -85,14 +85,22 @@
 
 <script>
 import gotoPage from '@/helpers/gotoPage';
+import { defineComponent } from 'vue';
+import numberFormat from '@/helpers/numberFormat';
 
-export default {
+export default defineComponent({
   methods: {
     gotoPage,
   },
   computed: {
     orderInfo() {
       return this.$store.state.orderInfo;
+    },
+    pricePretty() {
+      return numberFormat(this.item.product.price);
+    },
+    totalPricePretty() {
+      return numberFormat(this.orderInfo.totalPrice);
     },
   },
   created() {
@@ -101,5 +109,5 @@ export default {
     }
     this.$store.dispatch('loadOrderInfo', this.$route.params.id);
   },
-};
+});
 </script>
