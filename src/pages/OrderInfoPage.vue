@@ -61,9 +61,9 @@
 
         <div class="cart__block">
           <ul class="cart__orders">
-            <li class="cart__order" v-for="item in orderInfo.basket.items" :key="item.product.id">
+            <li class="cart__order" v-for="item in products" :key="item.product.id">
               <h3>{{ item.product.title }}</h3>
-              <b>{{ pricePretty }} ₽</b>
+              <b>{{ item.product.price }} ₽</b>
               <span>Артикул: {{ item.product.id }}</span>
             </li>
           </ul>
@@ -72,7 +72,7 @@
             <p>Доставка: <b>500 ₽</b></p>
             <p>
               Итого:
-              <b>{{ orderInfo.basket.items.length }}</b>
+              <b>{{ products.length }}</b>
               товара на сумму
               <b>{{ totalPricePretty }} ₽</b>
             </p>
@@ -96,9 +96,12 @@ export default defineComponent({
     orderInfo() {
       return this.$store.state.orderInfo;
     },
-    pricePretty() {
-      return numberFormat(this.item.product.price);
+    products() {
+      return this.orderInfo.basket.items;
     },
+    // pricePretty() {
+    //   return numberFormat(this.item.product.price);
+    // },
     totalPricePretty() {
       return numberFormat(this.orderInfo.totalPrice);
     },

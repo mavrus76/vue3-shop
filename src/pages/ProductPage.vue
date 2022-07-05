@@ -197,11 +197,10 @@
 
 <script>
 import gotoPage from '@/helpers/gotoPage';
-import axios from 'axios';
-import { API_BASE_URL } from '@/config';
 import { mapActions } from 'vuex';
 import { defineComponent } from 'vue';
 import numberFormat from '@/helpers/numberFormat';
+import loadProduct from '@/api/loadProduct';
 
 export default defineComponent({
   data() {
@@ -241,21 +240,7 @@ export default defineComponent({
         this.productAddSending = false;
       });
     },
-    loadProduct() {
-      this.productLoading = true;
-      this.productLoadingFailed = false;
-      axios
-        .get(`${API_BASE_URL}/api/products/${this.$route.params.id}`)
-        .then((response) => {
-          this.productData = response.data;
-        })
-        .catch(() => {
-          this.productLoadingFailed = true;
-        })
-        .then(() => {
-          this.productLoading = false;
-        });
-    },
+    loadProduct,
   },
   created() {
     this.loadProduct();

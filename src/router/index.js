@@ -17,7 +17,7 @@ const routes = [
 
 const router = createRouter({
   history: createWebHashHistory(
-    process.env.NODE_ENV === 'production' ? '/vue3-shop-production/' : '/',
+    process.env.NODE_ENV === 'production' ? '/vue3-tehnozavr-dist/' : '/',
   ),
   routes,
 });
