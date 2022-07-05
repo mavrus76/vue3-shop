@@ -106,7 +106,7 @@
           <ul class="cart__orders">
             <li class="cart__order" v-for="item in products" :key="item.product.id">
               <h3>{{ item.product.title }}</h3>
-              <b>{{ item.product.price }} ₽</b>
+              <b>{{ numberFormat(item.product.price) }} ₽</b>
               <span>Артикул: {{ item.product.id }}</span>
             </li>
           </ul>
@@ -167,6 +167,7 @@ export default defineComponent({
       formError: {},
       formErrorMessage: '',
       orderLoading: false,
+      item: {},
     };
   },
   computed: {
@@ -175,9 +176,6 @@ export default defineComponent({
       totalPrice: 'cartTotalPrice',
       totalProducts: 'cartTotalProducts',
     }),
-    // pricePretty() {
-    //   return numberFormat(this.item.product.price);
-    // },
     totalPricePretty() {
       return numberFormat(this.totalPrice);
     },
@@ -185,6 +183,7 @@ export default defineComponent({
   methods: {
     gotoPage,
     order,
+    numberFormat,
   },
 });
 </script>
