@@ -61,9 +61,9 @@
 
         <div class="cart__block">
           <ul class="cart__orders">
-            <li class="cart__order" v-for="item in products" :key="item.product.id">
+            <li class="cart__order" v-for="item in productsNormalized" :key="item.product.id">
               <h3>{{ item.product.title }}</h3>
-              <b>{{ numberFormat(item.product.price) }} ₽</b>
+              <b>{{ item.product.pricePretty }} ₽</b>
               <span>Артикул: {{ item.product.id }}</span>
             </li>
           </ul>
@@ -91,7 +91,6 @@ import numberFormat from '@/helpers/numberFormat';
 export default defineComponent({
   methods: {
     gotoPage,
-    numberFormat,
   },
   computed: {
     orderInfo() {
@@ -99,6 +98,15 @@ export default defineComponent({
     },
     products() {
       return this.orderInfo.basket.items;
+    },
+    productsNormalized() {
+      return this.products.map((item) => ({
+        ...item,
+        product: {
+          ...item.product,
+          pricePretty: numberFormat(item.product.price),
+        },
+      }));
     },
     totalPricePretty() {
       return numberFormat(this.orderInfo.totalPrice);

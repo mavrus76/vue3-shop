@@ -25,7 +25,6 @@
         <label class="form__label form__label--select">
           <select
             class="form__select"
-            type="text"
             name="category"
             v-model.number="currentCategoryId"
           >
