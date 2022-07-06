@@ -12,6 +12,7 @@
         v-model:category-id="filterCategoryId"
         v-model:color-id="filterColorId"
       />
+
       <section class="catalog">
         <div class="message" v-if="productsLoading">Загрузка товаров...</div>
         <div class="message" v-if="productsLoadingFailed">

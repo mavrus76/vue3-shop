@@ -1,7 +1,7 @@
 <template>
-  <main class="content container message" v-if="productLoading">Загрузка товара...</main>
-  <main class="content container message" v-else-if="!productData">Не удалось загрузить товар</main>
-  <main class="content container" v-else>
+  <div class="message" v-if="productLoading">Загрузка товара...</div>
+  <div class="message" v-else-if="!productData">Не удалось загрузить товар</div>
+  <div v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -195,7 +195,7 @@
         </div>
       </div>
     </section>
-  </main>
+  </div>
 </template>
 
 <script>
@@ -203,8 +203,8 @@ import gotoPage from '@/helpers/gotoPage';
 import { mapActions } from 'vuex';
 import { defineComponent } from 'vue';
 import numberFormat from '@/helpers/numberFormat';
-import loadProduct from '@/api/loadProduct';
 import BaseModal from '@/components/BaseModal.vue';
+import loadProductQuick from '@/api/loadProductQuick';
 
 export default defineComponent({
   data() {
@@ -217,6 +217,9 @@ export default defineComponent({
       productAddSending: false,
       isShowAddedMessage: false,
     };
+  },
+  props: {
+    productId: { type: [Number, String], required: true },
   },
   components: { BaseModal },
   computed: {
@@ -247,13 +250,19 @@ export default defineComponent({
         this.productAddSending = false;
       });
     },
-    loadProduct,
+    loadProductQuick,
   },
   created() {
-    this.loadProduct();
+    this.loadProductQuick();
   },
   beforeRouteUpdate() {
-    this.loadProduct();
+    this.loadProductQuick();
   },
 });
 </script>
+
+<style scoped>
+  .item {
+    grid-template-columns: 1fr;
+  }
+</style>
