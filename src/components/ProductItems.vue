@@ -1,5 +1,5 @@
 <template>
-  <li class="catalog__item">
+  <li v-bind="$attrs" class="catalog__item" v-for="product in productsNormalized" :key="product.id">
     <router-link class="catalog__pic" :to="{ name: 'product', params: { id: product.id } }">
       <img :src="product.image" :alt="product.title" />
     </router-link>
@@ -8,7 +8,7 @@
       <a href="#">{{ product.title }}</a>
     </h3>
 
-    <span class="catalog__price"> {{ pricePretty }} ₽ </span>
+    <span class="catalog__price"> {{ product.pricePretty }} ₽ </span>
 
     <ul class="colors colors--black">
       <li class="colors__item" v-for="color in product.colors" :key="color.id">
@@ -27,13 +27,17 @@ import numberFormat from '@/helpers/numberFormat';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  props: ['product'],
+  inheritAttrs: false,
+  props: ['products'],
   methods: {
     gotoPage,
   },
   computed: {
-    pricePretty() {
-      return numberFormat(this.product.price);
+    productsNormalized() {
+      return this.products.map((product) => ({
+        ...product,
+        pricePretty: numberFormat(product.price),
+      }));
     },
   },
 });
