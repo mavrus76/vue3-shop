@@ -124,3 +124,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="stylus">
+  .message
+    margin 5px
+    color #8a2be2
+    font-size 24px
+</style>

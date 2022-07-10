@@ -261,8 +261,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-  .item {
-    grid-template-columns: 1fr;
-  }
+<style lang="stylus" scoped>
+  .item
+    grid-template-columns 1fr
 </style>
