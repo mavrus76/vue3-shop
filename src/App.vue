@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header class="header" v-if="!isSomeOpen">
     <div class="header__wrapper container">
       <span class="header__info">Каталог</span>
 
@@ -18,7 +18,7 @@
     </div>
   </header>
 
-  <router-view />
+  <router-view :key="$route.fullPath" />
 
   <footer class="footer">
     <div class="footer__wrapper container">
@@ -108,9 +108,17 @@
 import CartIndicator from '@/components/CartIndicator.vue';
 import { mapActions, mapMutations } from 'vuex';
 import { defineComponent } from 'vue';
+import useModal from '@/hooks/useModal';
 
 export default defineComponent({
   components: { CartIndicator },
+  setup() {
+    const { isSomeOpen } = useModal();
+
+    return {
+      isSomeOpen,
+    };
+  },
   created() {
     const userAccessKey = localStorage.getItem('userAccessKey');
     if (userAccessKey) {

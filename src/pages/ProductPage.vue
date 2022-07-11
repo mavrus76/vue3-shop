@@ -1,6 +1,8 @@
 <template>
-  <main class="content container message" v-if="productLoading">Загрузка товара...</main>
-  <main class="content container message" v-else-if="!productData">Не удалось загрузить товар</main>
+  <main class="content container message" v-if="productStatus.isLoading">Загрузка товара...</main>
+  <main class="content container message" v-else-if="productStatus.isFailed">
+    Не удалось загрузить товар
+  </main>
   <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
@@ -29,8 +31,8 @@
         <span class="item__code">Артикул: {{ product.id }} </span>
         <h2 class="item__title">{{ product.title }}</h2>
         <div class="item__form">
-          <form class="form" action="#" method="POST" @submit.prevent="addToCart">
-            <b class="item__price"> {{ pricePretty }} ₽ </b>
+          <form class="form" action="#" method="POST" @submit.prevent="doAddToCart">
+            <b class="item__price"> {{ product.pricePretty }} ₽ </b>
 
             <fieldset class="form__block">
               <legend class="form__legend">Цвет:</legend>
@@ -199,61 +201,50 @@
 </template>
 
 <script>
-import gotoPage from '@/helpers/gotoPage';
-import { mapActions } from 'vuex';
-import { defineComponent } from 'vue';
-import numberFormat from '@/helpers/numberFormat';
-import loadProduct from '@/api/loadProduct';
+import { useStore } from 'vuex';
+import { defineComponent, ref } from 'vue';
 import BaseModal from '@/components/BaseModal.vue';
+import { useRoute } from 'vue-router';
+import useProduct from '@/hooks/useProduct';
 
 export default defineComponent({
-  data() {
-    return {
-      productAmount: 1,
-      productData: null,
-      productLoading: false,
-      productLoadingFailed: false,
-      productAdded: false,
-      productAddSending: false,
-      isShowAddedMessage: false,
-    };
-  },
   components: { BaseModal },
-  computed: {
-    pricePretty() {
-      return numberFormat(this.product.price);
-    },
-    product() {
-      const product = this.productData;
-      return {
-        ...product,
-        image: product.image.file.url,
-      };
-    },
-    category() {
-      return this.productData.category;
-    },
-  },
-  methods: {
-    ...mapActions(['addProductToCart']),
+  setup() {
+    const $route = useRoute();
+    const $store = useStore();
+    const {
+      product, category, fetchProduct, status: productStatus,
+    } = useProduct();
 
-    gotoPage,
-    addToCart() {
-      this.productAdded = false;
-      this.productAddSending = true;
-      this.addProductToCart({ productId: this.product.id, amount: this.productAmount }).then(() => {
-        this.isShowAddedMessage = true;
-        this.productAdded = true;
-        this.productAddSending = false;
-      });
-    },
-    loadProduct,
-  },
-  created() {
-    this.loadProduct();
-  },
-  beforeRouteUpdate() {
-    this.loadProduct();
+    const productAmount = ref(1);
+    const productAdded = ref(false);
+    const productAddSending = ref(false);
+    const isShowAddedMessage = ref(false);
+    const doAddToCart = () => {
+      productAdded.value = false;
+      productAddSending.value = true;
+      $store.dispatch('addProductToCart', { productId: product.value.id, amount: productAmount.value })
+        .then(() => {
+          isShowAddedMessage.value = true;
+          productAdded.value = true;
+          productAddSending.value = false;
+        });
+    };
+
+    fetchProduct($route.params.id);
+
+    return {
+      productAmount,
+      productData: product,
+      productStatus,
+      productAdded,
+      productAddSending,
+      isShowAddedMessage,
+      product,
+      category,
+
+      doAddToCart,
+    };
   },
 });
 </script>
