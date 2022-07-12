@@ -31,7 +31,7 @@
         <span class="item__code">Артикул: {{ product.id }} </span>
         <h2 class="item__title">{{ product.title }}</h2>
         <div class="item__form">
-          <form class="form" action="#" method="POST" @submit.prevent="doAddToCart">
+          <form class="form" action="#" method="POST" @submit.prevent="doAddToCart(product)">
             <b class="item__price"> {{ product.pricePretty }} ₽ </b>
 
             <fieldset class="form__block">
@@ -201,8 +201,7 @@
 </template>
 
 <script>
-import { useStore } from 'vuex';
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import BaseModal from '@/components/BaseModal.vue';
 import { useRoute } from 'vue-router';
 import useProduct from '@/hooks/useProduct';
@@ -211,25 +210,18 @@ export default defineComponent({
   components: { BaseModal },
   setup() {
     const $route = useRoute();
-    const $store = useStore();
     const {
-      product, category, fetchProduct, status: productStatus,
-    } = useProduct();
+      product,
+      category,
+      status: productStatus,
+      fetchProduct,
 
-    const productAmount = ref(1);
-    const productAdded = ref(false);
-    const productAddSending = ref(false);
-    const isShowAddedMessage = ref(false);
-    const doAddToCart = () => {
-      productAdded.value = false;
-      productAddSending.value = true;
-      $store.dispatch('addProductToCart', { productId: product.value.id, amount: productAmount.value })
-        .then(() => {
-          isShowAddedMessage.value = true;
-          productAdded.value = true;
-          productAddSending.value = false;
-        });
-    };
+      doAddToCart,
+      productAmount,
+      productAdded,
+      productAddSending,
+      isShowAddedMessage,
+    } = useProduct();
 
     fetchProduct($route.params.id);
 
